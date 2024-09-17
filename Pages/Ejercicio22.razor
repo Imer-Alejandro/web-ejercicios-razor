@@ -1,0 +1,70 @@
+﻿@page "/ejercicio/22"
+
+<h3>Ejercicio 22</h3>
+
+<p>Ingresa los valores de la matriz 5x5:</p>
+
+<div class="row">
+    @for (int i = 0; i < 5; i++)
+    {
+        <div class="col">
+            @for (int j = 0; j < 5; j++)
+            {
+                <input @bind="matriz[i,j]" type="number" class="form-control mb-3" placeholder="Posición (@i,@j)" />
+            }
+        </div>
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularModa">Calcular Moda</button>
+
+@if (frecuenciaModa != null)
+{
+    <p>La moda de la matriz se repite @frecuenciaModa veces.</p>
+}
+
+@code {
+    // Definimos la matriz de 5x5
+    private int[,] matriz = new int[5, 5];
+    private int? frecuenciaModa = null;
+
+    // Función para calcular la moda y su frecuencia
+    private int CalcularModa(int[,] matriz)
+    {
+        var contador = new Dictionary<int, int>();
+        int moda = matriz[0, 0];
+        int maxFrecuencia = 0;
+
+        // Contar la frecuencia de cada número en la matriz
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                int valor = matriz[i, j];
+                if (contador.ContainsKey(valor))
+                {
+                    contador[valor]++;
+                }
+                else
+                {
+                    contador[valor] = 1;
+                }
+
+                // Actualizar la moda y la frecuencia máxima
+                if (contador[valor] > maxFrecuencia)
+                {
+                    maxFrecuencia = contador[valor];
+                    moda = valor;
+                }
+            }
+        }
+
+        return maxFrecuencia;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón para calcular la moda y su frecuencia
+    private void CalcularModa()
+    {
+        frecuenciaModa = CalcularModa(matriz);
+    }
+}

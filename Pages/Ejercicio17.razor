@@ -1,0 +1,103 @@
+﻿@page "/ejercicio/17"
+
+<h3>Ejercicio 17, 18 y 19</h3>
+
+<p>Ingresa 10 números enteros para las siguientes operaciones:</p>
+
+<div>
+    @for (int i = 0; i < 10; i++)
+    {
+        <input @bind="vector[i]" type="number" class="form-control mb-3" placeholder="Posición @(i + 1)" />
+    }
+</div>
+
+<div>
+    <input @bind="digito" type="number" class="form-control mb-3" placeholder="Ingresa un dígito para búsqueda" />
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularSerieFibonacci">Calcular Serie Fibonacci</button>
+<button class="btn btn-secondary ml-2" @onclick="EncontrarNumerosTerminadosEn3">Encontrar Números Terminados en 3</button>
+<button class="btn btn-info ml-2" @onclick="EncontrarPosicionPorDigito">Encontrar Posición del Número que Termina en el Dígito</button>
+
+@if (fibonacciSerie != null)
+{
+    <p>La serie Fibonacci hasta el número ingresado es: @string.Join(", ", fibonacciSerie)</p>
+}
+
+@if (numerosTerminadosEn3?.Count > 0)
+{
+    <p>Números terminados en 3: @string.Join(", ", numerosTerminadosEn3)</p>
+}
+else if (numerosTerminadosEn3?.Count == 0)
+{
+    <p>No se encontraron números terminados en 3.</p>
+}
+
+@if (posicionNumero != null)
+{
+    <p>La posición del número que termina en el dígito @digito es: @posicionNumero</p>
+}
+
+@code {
+    private int[] vector = new int[10];
+    private int digito;
+    private List<int> fibonacciSerie;
+    private List<int> numerosTerminadosEn3;
+    private int? posicionNumero;
+
+    // Función para calcular la serie de Fibonacci hasta el número dado
+    private List<int> CalcularSerieFibonacci(int numero)
+    {
+        List<int> serie = new List<int> { 0, 1 };
+        for (int i = 2; i <= numero; i++)
+        {
+            serie.Add(serie[i - 1] + serie[i - 2]);
+        }
+        return serie;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón para calcular la serie de Fibonacci
+    private void CalcularSerieFibonacci()
+    {
+        fibonacciSerie = CalcularSerieFibonacci(10);  // Calculamos hasta el número 10 como ejemplo
+    }
+
+    // Función para encontrar números en el vector que terminen en 3
+    private List<int> EncontrarNumerosTerminadosEn3(int[] vector)
+    {
+        List<int> terminadosEn3 = new List<int>();
+        foreach (var numero in vector)
+        {
+            if (numero % 10 == 3)
+            {
+                terminadosEn3.Add(numero);
+            }
+        }
+        return terminadosEn3;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón para encontrar números terminados en 3
+    private void EncontrarNumerosTerminadosEn3()
+    {
+        numerosTerminadosEn3 = EncontrarNumerosTerminadosEn3(vector);
+    }
+
+    // Función para encontrar la posición de un número que termina en un dígito específico
+    private int? EncontrarPosicionPorDigito(int[] vector, int digito)
+    {
+        for (int i = 0; i < vector.Length; i++)
+        {
+            if (vector[i] % 10 == digito)
+            {
+                return i;
+            }
+        }
+        return null;  // Si no se encuentra ningún número que termine en ese dígito
+    }
+
+    // Función que se ejecuta al hacer clic en el botón para encontrar la posición de un número que termina en el dígito ingresado
+    private void EncontrarPosicionPorDigito()
+    {
+        posicionNumero = EncontrarPosicionPorDigito(vector, digito);
+    }
+}

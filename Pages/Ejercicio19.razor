@@ -1,0 +1,86 @@
+﻿@page "/ejercicio/19"
+
+<h3>Ejercicio 19</h3>
+
+<p>Ingresa los valores de la matriz 3x4:</p>
+
+<div class="row">
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="col">
+            @for (int j = 0; j < 4; j++)
+            {
+                <input @bind="matriz[i,j]" type="number" class="form-control mb-3" placeholder="Posición (@i,@j)" />
+            }
+        </div>
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularRepeticionesMayorPrimo">Calcular Repeticiones del Mayor Primo</button>
+
+@if (repeticionesMayorPrimo != null)
+{
+    <p>El número primo mayor se repite: @repeticionesMayorPrimo veces.</p>
+}
+@if (mayorPrimo != null)
+{
+    <p>El número primo mayor es: @mayorPrimo.</p>
+}
+
+@code {
+    // Definimos la matriz de 3x4
+    private int[,] matriz = new int[3, 4];
+    private int? repeticionesMayorPrimo = null;
+    private int? mayorPrimo = null;
+
+    // Función para determinar si un número es primo
+    private bool EsPrimo(int numero)
+    {
+        if (numero < 2) return false;
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0) return false;
+        }
+        return true;
+    }
+
+    // Función para encontrar el número primo mayor y contar cuántas veces se repite
+    private (int, int) ContarRepeticionesMayorPrimo(int[,] matriz)
+    {
+        // Inicializar el mayor primo
+        int? mayorPrimo = null;
+
+        // Encontrar el número primo mayor
+        foreach (var valor in matriz)
+        {
+            if (EsPrimo(valor) && (mayorPrimo == null || valor > mayorPrimo))
+            {
+                mayorPrimo = valor;
+            }
+        }
+
+        // Si no se encontró ningún primo
+        if (mayorPrimo == null)
+        {
+            return (0, 0);
+        }
+
+        int repeticiones = 0;
+        foreach (var valor in matriz)
+        {
+            if (valor == mayorPrimo)
+            {
+                repeticiones++;
+            }
+        }
+
+        return (mayorPrimo.Value, repeticiones);
+    }
+
+    private void CalcularRepeticionesMayorPrimo()
+    {
+        var resultado = ContarRepeticionesMayorPrimo(matriz);
+        mayorPrimo = resultado.Item1;
+        repeticionesMayorPrimo = resultado.Item2;
+    }
+}

@@ -1,0 +1,32 @@
+﻿@page "/ejercicio/8"
+
+<h3>Ejercicio 8</h3>
+
+<p>Ingresa un valor para verificar si corresponde al código ASCII de una letra minúscula:</p>
+
+<input @bind="codigoAscii" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="VerificarLetraMinuscula">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>El código ASCII @(codigoAscii) @(resultado == 1 ? "corresponde" : "no corresponde") a una letra minúscula.</p>
+}
+
+@code {
+    private int codigoAscii;
+    private int? resultado;
+
+    // Función para verificar si un código ASCII corresponde a una letra minúscula
+    private int VerificarCodigoAscii(int codigoAscii)
+    {
+        // ASCII para letras minúsculas está en el rango de 97 a 122
+        return (codigoAscii >= 97 && codigoAscii <= 122) ? 1 : 0;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void VerificarLetraMinuscula()
+    {
+        resultado = VerificarCodigoAscii(codigoAscii);
+    }
+}

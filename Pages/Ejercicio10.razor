@@ -1,0 +1,45 @@
+﻿@page "/ejercicio/10"
+
+<h3>Ejercicio 10</h3>
+
+<p>Ingresa un número para verificar si todos sus dígitos son iguales:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="VerificarDigitosIguales">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>El número @(numero) @(resultado == 1 ? "tiene" : "no tiene") todos los dígitos iguales.</p>
+}
+
+@code {
+    private int numero;
+    private int? resultado;
+
+    // Función para verificar si todos los dígitos de un número son iguales
+    private int VerificarDigitosIguales(int numero)
+    {
+        string numeroStr = numero.ToString();
+
+        if (numeroStr.Length == 0) return 0; // No hay dígitos en el número
+
+        char primerDigito = numeroStr[0];
+
+        foreach (char digito in numeroStr)
+        {
+            if (digito != primerDigito)
+            {
+                return 0; // Hay al menos un dígito diferente
+            }
+        }
+
+        return 1; // Todos los dígitos son iguales
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void VerificarDigitosIguales()
+    {
+        resultado = VerificarDigitosIguales(numero);
+    }
+}

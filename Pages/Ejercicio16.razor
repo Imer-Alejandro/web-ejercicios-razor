@@ -1,0 +1,76 @@
+﻿@page "/ejercicio/16"
+
+<h3>Ejercicio 16 y 17</h3>
+
+<p>Ingresa 10 números enteros para calcular el promedio real y encontrar el número con más dígitos:</p>
+
+<div>
+    @for (int i = 0; i < 10; i++)
+    {
+        <input @bind="vector[i]" type="number" class="form-control mb-3" placeholder="Posición @(i + 1)" />
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularPromedio">Calcular Promedio</button>
+<button class="btn btn-secondary ml-2" @onclick="EncontrarNumeroConMasDigitos">Encontrar Número con más Dígitos</button>
+
+@if (promedio != null)
+{
+    <p>El promedio de los números ingresados es: @promedio</p>
+}
+
+@if (numeroConMasDigitos != null)
+{
+    <p>El número con más dígitos es: @numeroConMasDigitos</p>
+}
+
+@code {
+    // Vector de 10 posiciones
+    private int[] vector = new int[10];
+    private double? promedio = null;
+    private int? numeroConMasDigitos = null;
+
+    // Función para calcular el promedio real de los elementos del vector
+    private double CalcularPromedioReal(int[] vector)
+    {
+        int suma = 0;
+
+        foreach (var numero in vector)
+        {
+            suma += numero;
+        }
+
+        return (double)suma / vector.Length;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón
+    private void CalcularPromedio()
+    {
+        promedio = CalcularPromedioReal(vector);
+    }
+
+    // Función para encontrar el número con más dígitos en el vector
+    private int EncontrarNumeroConMasDigitos(int[] vector)
+    {
+        int maxDigitos = 0;
+        int numeroMayor = vector[0];
+
+        foreach (var numero in vector)
+        {
+            int digitos = numero.ToString().Length;
+            if (digitos > maxDigitos)
+            {
+                maxDigitos = digitos;
+                numeroMayor = numero;
+            }
+        }
+
+        return numeroMayor;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón para encontrar el número con más dígitos
+    private void EncontrarNumeroConMasDigitos()
+    {
+        numeroConMasDigitos = EncontrarNumeroConMasDigitos(vector);
+    }
+}

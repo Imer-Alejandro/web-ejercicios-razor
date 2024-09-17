@@ -1,0 +1,52 @@
+﻿@page "/ejercicio/12"
+
+<h3>Ejercicio 12</h3>
+
+<p>Ingresa dos números de dos dígitos cada uno para verificar si son inversos:</p>
+
+<div>
+    <input @bind="numero1" type="number" class="form-control mb-3" placeholder="Número 1" min="10" max="99" />
+    <input @bind="numero2" type="number" class="form-control mb-3" placeholder="Número 2" min="10" max="99" />
+</div>
+
+<button class="btn btn-primary" @onclick="VerificarSiSonInversos">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>Los números @(numero1) y @(numero2) @(resultado == 1 ? "son" : "no son") inversos.</p>
+}
+
+@code {
+    private int numero1;
+    private int numero2;
+    private int? resultado;
+
+    // Función para verificar si dos números de dos dígitos son inversos
+    private int SonInversos(int num1, int num2)
+    {
+        // Convertir los números a cadenas para invertir el primero
+        string num1Str = num1.ToString();
+        string num2Str = num2.ToString();
+
+        // Invertir los dígitos de num1
+        char[] num1Array = num1Str.ToCharArray();
+        Array.Reverse(num1Array);
+        string num1Reversed = new string(num1Array);
+
+        // Comparar el número invertido con el segundo número
+        return num1Reversed == num2Str ? 1 : 0;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void VerificarSiSonInversos()
+    {
+        if (numero1 >= 10 && numero1 <= 99 && numero2 >= 10 && numero2 <= 99)
+        {
+            resultado = SonInversos(numero1, numero2);
+        }
+        else
+        {
+            resultado = 0; // Asegurarse de que los números estén dentro del rango
+        }
+    }
+}

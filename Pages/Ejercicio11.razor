@@ -1,0 +1,31 @@
+﻿@page "/ejercicio/11"
+
+<h3>Ejercicio 11</h3>
+
+<p>Ingresa un número para verificar si es múltiplo de 5:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="VerificarMultiploDeCinco">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>El número @(numero) @(resultado == 1 ? "es" : "no es") múltiplo de 5.</p>
+}
+
+@code {
+    private int numero;
+    private int? resultado;
+
+    // Función para verificar si un número es múltiplo de 5
+    private int EsMultiploDeCinco(int numero)
+    {
+        return numero % 5 == 0 ? 1 : 0;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void VerificarMultiploDeCinco()
+    {
+        resultado = EsMultiploDeCinco(numero);
+    }
+}

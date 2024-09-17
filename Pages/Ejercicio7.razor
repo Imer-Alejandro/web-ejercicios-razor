@@ -1,0 +1,40 @@
+﻿@page "/ejercicio/7"
+
+<h3>Ejercicio 7</h3>
+
+<p>Ingresa dos valores para obtener el mayor:</p>
+
+<div class="mb-3">
+    <label for="valor1Input" class="form-label">Valor 1:</label>
+    <input id="valor1Input" @bind="valor1" type="number" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label for="valor2Input" class="form-label">Valor 2:</label>
+    <input id="valor2Input" @bind="valor2" type="number" class="form-control" />
+</div>
+
+<button class="btn btn-primary" @onclick="CalcularMayor">Calcular</button>
+
+@if (resultado != null)
+{
+    <p>El mayor de los dos valores es: <strong>@resultado</strong></p>
+}
+
+@code {
+    private int valor1;
+    private int valor2;
+    private int? resultado;
+
+    // Función para obtener el mayor de dos valores
+    private int ObtenerMayor(int valor1, int valor2)
+    {
+        return valor1 > valor2 ? valor1 : valor2;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void CalcularMayor()
+    {
+        resultado = ObtenerMayor(valor1, valor2);
+    }
+}

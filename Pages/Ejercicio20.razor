@@ -1,0 +1,56 @@
+﻿@page "/ejercicio/20"
+
+<h3>Ejercicio 20</h3>
+
+<p>Ingresa los valores de la matriz 3x4:</p>
+
+<div class="row">
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="col">
+            @for (int j = 0; j < 4; j++)
+            {
+                <input @bind="matriz[i,j]" type="number" class="form-control mb-3" placeholder="Posición (@i,@j)" />
+            }
+        </div>
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="EncontrarFilaDelMayor">Encontrar Fila del Número Mayor</button>
+
+@if (filaMayor != null)
+{
+    <p>El número mayor se encuentra por primera vez en la fila: @filaMayor.</p>
+}
+
+@code {
+    private int[,] matriz = new int[3, 4];
+    private int? filaMayor = null;
+
+    private int EncontrarFilaDelMayor(int[,] matriz)
+    {
+        int datoMayor = matriz[0, 0];
+        int filaPrimera = 0;
+
+        // Encontrar el dato mayor y la primera fila donde aparece
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (matriz[i, j] > datoMayor)
+                {
+                    datoMayor = matriz[i, j];
+                    filaPrimera = i;
+                }
+            }
+        }
+
+        return filaPrimera;
+    }
+
+    private void EncontrarFilaDelMayor()
+    {
+        // Se suma 1 para hacer la fila 1-indexada en vez de 0-indexada
+        filaMayor = EncontrarFilaDelMayor(matriz) + 1; 
+    }
+}

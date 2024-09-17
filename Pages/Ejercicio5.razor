@@ -1,0 +1,35 @@
+﻿@page "/ejercicio/5"
+
+<h3>Ejercicio 5</h3>
+
+<p>Ingresa un número para obtener el primer dígito:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="MostrarPrimerDigito">Calcular</button>
+
+@if (resultado != null)
+{
+    <p>El primer dígito del número es: <strong>@resultado</strong></p>
+}
+
+@code {
+    private int numero;
+    private int? resultado;
+
+    // Función para obtener el primer dígito de un número
+    private int ObtenerPrimerDigito(int numero)
+    {
+        // Convertir el número a una cadena y tomar el primer carácter
+        string numeroStr = Math.Abs(numero).ToString();
+        char primerDigitoChar = numeroStr[0];
+        // Convertir el primer carácter de vuelta a un entero
+        return int.Parse(primerDigitoChar.ToString());
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void MostrarPrimerDigito()
+    {
+        resultado = ObtenerPrimerDigito(numero);
+    }
+}

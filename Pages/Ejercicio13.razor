@@ -1,0 +1,48 @@
+﻿@page "/ejercicio/13"
+
+<h3>Ejercicio 13</h3>
+
+<p>Ingresa 10 números enteros para encontrar la posición del mayor valor:</p>
+
+<div>
+    @for (int i = 0; i < 10; i++)
+    {
+        <input @bind="vector[i]" type="number" class="form-control mb-3" placeholder="Posición @(i + 1)" />
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="ObtenerPosicionMayorValor">Encontrar Mayor Valor</button>
+
+@if (posicionMayor != null)
+{
+    <p>El mayor valor se encuentra en la posición @(posicionMayor + 1).</p>
+}
+
+@code {
+    // Vector de 10 posiciones
+    private int[] vector = new int[10];
+    private int? posicionMayor;
+
+    // Función para encontrar la posición del mayor valor en el vector
+    private int EncontrarPosicionMayor(int[] vector)
+    {
+        int mayor = vector[0];
+        int posicion = 0;
+
+        for (int i = 1; i < vector.Length; i++)
+        {
+            if (vector[i] > mayor)
+            {
+                mayor = vector[i];
+                posicion = i;
+            }
+        }
+        return posicion;
+    }
+
+    // Función para obtener la posición del mayor valor en la vista
+    private void ObtenerPosicionMayorValor()
+    {
+        posicionMayor = EncontrarPosicionMayor(vector);
+    }
+}

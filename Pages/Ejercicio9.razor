@@ -1,0 +1,51 @@
+﻿@page "/ejercicio/9"
+
+<h3>Ejercicio 9</h3>
+
+<p>Ingresa un valor para verificar si corresponde al factorial de alguno de los dígitos del número:</p>
+
+<input @bind="valor" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="VerificarFactorial">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>El valor @(valor) @(resultado == 1 ? "es" : "no es") el factorial de alguno de los dígitos de un número.</p>
+}
+
+@code {
+    private int valor;
+    private int? resultado;
+
+    // Función para calcular el factorial de un número
+    private int CalcularFactorial(int numero)
+    {
+        if (numero == 0 || numero == 1)
+            return 1;
+        int factorial = 1;
+        for (int i = 2; i <= numero; i++)
+        {
+            factorial *= i;
+        }
+        return factorial;
+    }
+
+    // Función para verificar si un valor corresponde al factorial de algún dígito
+    private int VerificarFactorialDeDigito(int valor)
+    {
+        for (int i = 0; i <= 9; i++)
+        {
+            if (CalcularFactorial(i) == valor)
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void VerificarFactorial()
+    {
+        resultado = VerificarFactorialDeDigito(valor);
+    }
+}

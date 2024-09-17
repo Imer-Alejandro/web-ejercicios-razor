@@ -1,0 +1,71 @@
+﻿@page "/ejercicio/21"
+
+<h3>Ejercicio 21</h3>
+
+<p>Ingresa los valores de la matriz 3x4:</p>
+
+<div class="row">
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="col">
+            @for (int j = 0; j < 4; j++)
+            {
+                <input @bind="matriz[i,j]" type="number" class="form-control mb-3" placeholder="Posición (@i,@j)" />
+            }
+        </div>
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="EncontrarPosicionMayorPrimo">Encontrar Posición del Mayor Primo</button>
+
+@if (filaMayorPrimo != null && columnaMayorPrimo != null)
+{
+    <p>El número primo mayor se encuentra en la posición: (@filaMayorPrimo, @columnaMayorPrimo).</p>
+}
+
+@code {
+    private int[,] matriz = new int[3, 4];
+    private int? filaMayorPrimo = null;
+    private int? columnaMayorPrimo = null;
+
+    private bool EsPrimo(int numero)
+    {
+        if (numero < 2) return false;
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0) return false;
+        }
+        return true;
+    }
+
+    // Función para encontrar la posición del número primo mayor
+    private (int fila, int columna) EncontrarPosicionMayorPrimo(int[,] matriz)
+    {
+        int? mayorPrimo = null;
+        int filaMayor = -1;
+        int columnaMayor = -1;
+
+        // Encontrar el número primo mayor y su posición
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                int valor = matriz[i, j];
+                if (EsPrimo(valor) && (mayorPrimo == null || valor > mayorPrimo))
+                {
+                    mayorPrimo = valor;
+                    filaMayor = i;
+                    columnaMayor = j;
+                }
+            }
+        }
+
+        return (filaMayor, columnaMayor);
+    }
+
+    private void EncontrarPosicionMayorPrimo()
+    {
+        var resultado = EncontrarPosicionMayorPrimo(matriz);
+        filaMayorPrimo = resultado.fila + 1; 
+        columnaMayorPrimo = resultado.columna + 1; 
+}

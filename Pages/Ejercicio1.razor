@@ -1,0 +1,30 @@
+﻿@page "/ejercicio/1"
+<h3>Ejercicio 1</h3>
+
+<p>Ingresa un número para obtener los dos últimos dígitos:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="MostrarDosUltimosDigitos">Calcular</button>
+
+@if (resultado != null)
+{
+    <p>Los dos últimos dígitos son: <strong>@resultado</strong></p>
+}
+
+@code {
+    private int numero;
+    private int? resultado;
+
+    // Función para obtener los dos últimos dígitos
+    private int ObtenerDosUltimosDigitos(int numero)
+    {
+        return Math.Abs(numero) % 100;
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void MostrarDosUltimosDigitos()
+    {
+        resultado = ObtenerDosUltimosDigitos(numero);
+    }
+}

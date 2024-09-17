@@ -1,0 +1,65 @@
+﻿@page "/ejercicio/14"
+
+<h3>Ejercicio 14</h3>
+
+<p>Ingresa 10 números enteros para encontrar los números primos:</p>
+
+<div>
+    @for (int i = 0; i < 10; i++)
+    {
+        <input @bind="vector[i]" type="number" class="form-control mb-3" placeholder="Posición @(i + 1)" />
+    }
+</div>
+
+<button class="btn btn-primary" @onclick="ObtenerNumerosPrimos">Encontrar Primos</button>
+
+@if (numerosPrimos.Count > 0)
+{
+    <p>Números primos encontrados: @string.Join(", ", numerosPrimos)</p>
+}
+else if (resultadoMostrado)
+{
+    <p>No se encontraron números primos.</p>
+}
+
+@code {
+    // Vector de 10 posiciones
+    private int[] vector = new int[10];
+    private List<int> numerosPrimos = new List<int>();
+    private bool resultadoMostrado = false;
+
+    // Función para verificar si un número es primo
+    private bool EsPrimo(int numero)
+    {
+        if (numero <= 1) return false;
+
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0)
+                return false;
+        }
+        return true;
+    }
+
+    // Función para obtener los números primos del vector
+    private List<int> ObtenerPrimos(int[] vector)
+    {
+        List<int> primos = new List<int>();
+
+        foreach (var numero in vector)
+        {
+            if (EsPrimo(numero))
+            {
+                primos.Add(numero);
+            }
+        }
+        return primos;
+    }
+
+    // Función que se ejecuta al hacer clic en el botón
+    private void ObtenerNumerosPrimos()
+    {
+        numerosPrimos = ObtenerPrimos(vector);
+        resultadoMostrado = true; // Para mostrar el mensaje de "no se encontraron primos" si no hay primos
+    }
+}

@@ -1,0 +1,44 @@
+﻿@page "/ejercicio/4"
+
+<h3>Ejercicio 4</h3>
+
+<p>Ingresa un número para verificar si está dentro de los primeros 30 elementos de la serie de Fibonacci:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="VerificarEnFibonacci">Verificar</button>
+
+@if (resultado != null)
+{
+    <p>El número @numero @(resultado == 1 ? "está" : "no está") dentro de los primeros 30 elementos de la serie de Fibonacci.</p>
+}
+
+@code {
+    private int numero;
+    private int? resultado;
+
+    // Función para generar los primeros N números de Fibonacci
+    private List<int> GenerarFibonacci(int cantidad)
+    {
+        var fibonacci = new List<int> { 0, 1 };
+        for (int i = 2; i < cantidad; i++)
+        {
+            int siguiente = fibonacci[i - 1] + fibonacci[i - 2];
+            fibonacci.Add(siguiente);
+        }
+        return fibonacci;
+    }
+
+    // Función para verificar si un número está dentro de los primeros 30 números de Fibonacci
+    private int VerificarNumeroEnFibonacci(int numero)
+    {
+        var primeros30Fibonacci = GenerarFibonacci(30);
+        return primeros30Fibonacci.Contains(numero) ? 1 : 0;
+    }
+
+    // Función para ejecutar al hacer clic en el botón
+    private void VerificarEnFibonacci()
+    {
+        resultado = VerificarNumeroEnFibonacci(numero);
+    }
+}

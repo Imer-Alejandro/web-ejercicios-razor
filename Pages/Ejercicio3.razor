@@ -1,0 +1,38 @@
+﻿@page "/ejercicio/3"
+
+<h3>Ejercicio 3</h3>
+
+<p>Ingresa un número para obtener el carácter ASCII correspondiente:</p>
+
+<input @bind="numero" type="number" class="form-control mb-3" />
+
+<button class="btn btn-primary" @onclick="MostrarCaracterAscii">Calcular</button>
+
+@if (!string.IsNullOrEmpty(resultado))
+{
+    <p>El carácter ASCII correspondiente es: <strong>@resultado</strong></p>
+}
+
+@code {
+    private int numero;
+    private string resultado;
+
+    // Función para convertir un número a un carácter ASCII
+    private string ObtenerCaracterAscii(int numero)
+    {
+        try
+        {
+            return ((char)numero).ToString();
+        }
+        catch
+        {
+            return "Valor fuera de rango ASCII";
+        }
+    }
+
+    // Función para mostrar el resultado en la vista
+    private void MostrarCaracterAscii()
+    {
+        resultado = ObtenerCaracterAscii(numero);
+    }
+}
